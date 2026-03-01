@@ -8,8 +8,13 @@ def main():
     print("Welcome to the assistant bot!")
 
     while True:
-        user_input = input("Enter a command: ")
-        command, *args = parse_input(user_input)
+        try:
+            user_input = input("Enter a command: ")
+        except KeyboardInterrupt:
+            print("exit")
+            command = "exit"
+        else:
+            command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
             print("Good bye!")
@@ -37,8 +42,11 @@ def main():
 
 
 def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
+    input_list = user_input.split()
+    if not input_list:
+        return [""]  # Return an empty command if no input is provided
+    cmd = input_list[0].strip().lower()
+    args = input_list[1:]
     return cmd, *args
 
 
